@@ -1,0 +1,815 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kimbap Spesial - Pesan Sekarang!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: rgba(255, 0, 0, 0.787);
+            --secondary: #4ECDC4;
+            --accent: #FFD166;
+            --dark: #1A535C;
+            --light: #F7FFF7;
+        }
+
+        body {
+            background: linear-gradient(135deg, rgb(255, 255, 255) 0%, #fad0c4 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            transition: color 0.3s;
+            font-size: 18px;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 150px 0 100px;
+            text-align: center;
+            background: url('data:image/jpeg;base64,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') no-repeat center center/cover;
+            color: white;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--dark);
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background: #ffc44d;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--dark);
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* Product Section */
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .product-image {
+            height: 300px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 5rem;
+        }
+
+        .product-info {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .product-info h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .product-info p {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .product-price {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+
+        /* Pricing Section */
+        .pricing-options {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+
+        .pricing-card.selected {
+            border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.3);
+        }
+
+        .pricing-card:hover {
+            transform: scale(1.03);
+        }
+
+        .delivery {
+            border-top: 5px solid var(--primary);
+        }
+
+        .pickup {
+            border-top: 5px solid var(--secondary);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .pricing-card li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .pricing-card li:last-child {
+            border-bottom: none;
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+
+        .order-button {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--dark);
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .order-button.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .order-button.active:hover {
+            background: #ffc44d;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: var(--dark);
+            color: white;
+        }
+
+        .contact-section .section-title h2 {
+            color: white;
+        }
+
+        .contact-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 50px;
+        }
+
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .contact-info h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .contact-details {
+            margin-bottom: 30px;
+        }
+
+        .contact-details p {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+
+        .contact-details i {
+            margin-right: 15px;
+            color: var(--secondary);
+            font-size: 1.3rem;
+        }
+
+        .whatsapp-button {
+            display: inline-flex;
+            align-items: center;
+            background: #25D366;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            margin-top: 20px;
+        }
+
+        .whatsapp-button:hover {
+            background: #128C7E;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+        }
+
+        .whatsapp-button i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin: 0 10px;
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .pricing-options {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .product-image {
+                height: 200px;
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-utensils"></i>
+                    KimbapSpesial
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home">Beranda</a></li>
+                    <li><a href="#product">Menu</a></li>
+                    <li><a href="#pricing">Opsi</a></li>
+                    <li><a href="#contact">Kontak</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>The Best Kimbap Spesial</h1>
+            <p>Yorobun, onereun mukbangen Kimbap, YAREUUUUU!!</p>
+            <a href="#product" class="cta-button">Lihat Menu <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    ```html
+    <!-- Product Section -->
+    <section id="product">
+        <div class="container">
+            <div class="section-title">
+                <h2>Menu Kimbap Spesial</h2>
+            </div>
+            <div class="product-card">
+                <div class="product-image" style="position: relative; overflow: hidden;">
+                    <img src="https://media.istockphoto.com/id/1482842407/photo/gimbap.webp?a=1&b=1&s=612x612&w=0&k=20&c=ZEGlrUwNdKM1WOZko-wdZCxKeNoGXUe9vuhCTaxUgUU="
+                        alt="Kimbap Spesial" style="width: 100%; height: 100%; object-fit: cover;">
+                    <!-- Flying Korean text elements -->
+                    <div class="flying-text"
+                        style="position: absolute; font-size: 2rem; font-weight: bold; color: #FFD700; text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 0 0 10px rgba(255,255,255,0.8); animation: fly1 15s linear infinite; top: 20%; left: -10%;">
+                        김밥</div>
+                    <div class="flying-text"
+                        style="position: absolute; font-size: 1.8rem; font-weight: bold; color: #000; text-shadow: 2px 2px 0 #FFF, -2px -2px 0 #FFF, 2px -2px 0 #FFF, -2px 2px 0 #FFF; animation: fly2 12s linear infinite; top: 60%; left: -10%;">
+                        김밥</div>
+                    <div class="flying-text"
+                        style="position: absolute; font-size: 2.2rem; font-weight: bold; color: #FFD700; text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 0 0 10px rgba(255,255,255,0.8); animation: fly3 18s linear infinite; top: 40%; left: -10%;">
+                        김밥</div>
+                    <div class="flying-text"
+                        style="position: absolute; font-size: 1.6rem; font-weight: bold; color: #000; text-shadow: 2px 2px 0 #FFF, -2px -2px 0 #FFF, 2px -2px 0 #FFF, -2px 2px 0 #FFF; animation: fly4 14s linear infinite; top: 80%; left: -10%;">
+                        김밥</div>
+                    <div class="flying-text"
+                        style="position: absolute; font-size: 2rem; font-weight: bold; color: #FFD700; text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 0 0 10px rgba(255,255,255,0.8); animation: fly5 16s linear infinite; top: 10%; left: -10%;">
+                        김밥</div>
+                </div>
+                <div class="product-info">
+                    <h2>✨ Kimbap – Gulungan Rasa dari Korea</h2>
+                    <p>Nikmati kimbap segar dengan isian lengkap yang dibalut nasi pulen dan lembaran rumput laut
+                        berkualitas. Setiap potongan menghadirkan perpaduan rasa gurih, segar, dan sedikit manis yang
+                        pas untuk jadi teman makan siang, bekal praktis, atau camilan sehat.</p>
+
+                    <div style="background: #f0f8ff; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h3 style="color: var(--dark); margin-bottom: 15px;">Kenapa kimbap istimewa?</h3>
+                        <ul style="list-style-type: none; padding-left: 0;">
+                            <li style="margin-bottom: 10px; display: flex; align-items: flex-start;">
+                                <span style="color: var(--primary); font-size: 1.2rem; margin-right: 10px;">🌱</span>
+                                <span><strong>Lebih sehat dari fast food biasa:</strong> kaya serat, protein, dan rendah
+                                    minyak.</span>
+                            </li>
+                            <li style="margin-bottom: 10px; display: flex; align-items: flex-start;">
+                                <span style="color: var(--primary); font-size: 1.2rem; margin-right: 10px;">🇰🇷</span>
+                                <span><strong>Hidangan ikonik Korea:</strong> sering hadir di piknik dan drama
+                                    Korea.</span>
+                            </li>
+                            <li style="margin-bottom: 10px; display: flex; align-items: flex-start;">
+                                <span style="color: var(--primary); font-size: 1.2rem; margin-right: 10px;">🍙</span>
+                                <span><strong>Praktis & mengenyangkan:</strong> satu gulung bisa jadi makanan
+                                    lengkap.</span>
+                            </li>
+                            <li style="margin-bottom: 10px; display: flex; align-items: flex-start;">
+                                <span style="color: var(--primary); font-size: 1.2rem; margin-right: 10px;">🎨</span>
+                                <span><strong>Cantik di piring, nikmat di lidah:</strong> warna-warni sayuran segar
+                                    menambah selera.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="product-price" style="text-align: center; margin: 30px 0;">
+                        <div
+                            style="display: inline-block; background: linear-gradient(45deg, #FF6B6B, #FF8E53); padding: 20px 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);">
+                            <div
+                                style="font-size: 1.2rem; text-decoration: line-through; color: rgba(255, 255, 255, 0.8); margin-bottom: 5px;">
+                                Rp 15.000</div>
+                            <div
+                                style="font-size: 6rem; font-weight: 800; color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">
+                                8k AJAAA!!!</div>
+                            !
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <style>
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fly1 {
+            0% {
+                transform: translateX(0) translateY(0) rotate(0deg);
+            }
+
+            25% {
+                transform: translateX(200px) translateY(-20px) rotate(10deg);
+            }
+
+            50% {
+                transform: translateX(400px) translateY(10px) rotate(0deg);
+            }
+
+            75% {
+                transform: translateX(600px) translateY(-15px) rotate(-10deg);
+            }
+
+            100% {
+                transform: translateX(800px) translateY(0) rotate(0deg);
+            }
+        }
+
+        @keyframes fly2 {
+            0% {
+                transform: translateX(0) translateY(0) rotate(0deg);
+            }
+
+            25% {
+                transform: translateX(150px) translateY(25px) rotate(-15deg);
+            }
+
+            50% {
+                transform: translateX(300px) translateY(-10px) rotate(5deg);
+            }
+
+            75% {
+                transform: translateX(450px) translateY(20px) rotate(-5deg);
+            }
+
+            100% {
+                transform: translateX(600px) translateY(0) rotate(0deg);
+            }
+        }
+
+        @keyframes fly3 {
+            0% {
+                transform: translateX(0) translateY(0) rotate(0deg);
+            }
+
+            25% {
+                transform: translateX(250px) translateY(-15px) rotate(20deg);
+            }
+
+            50% {
+                transform: translateX(500px) translateY(5px) rotate(0deg);
+            }
+
+            75% {
+                transform: translateX(750px) translateY(-25px) rotate(-20deg);
+            }
+
+            100% {
+                transform: translateX(1000px) translateY(0) rotate(0deg);
+            }
+        }
+
+        @keyframes fly4 {
+            0% {
+                transform: translateX(0) translateY(0) rotate(0deg);
+            }
+
+            25% {
+                transform: translateX(180px) translateY(30px) rotate(10deg);
+            }
+
+            50% {
+                transform: translateX(360px) translateY(-20px) rotate(-10deg);
+            }
+
+            75% {
+                transform: translateX(540px) translateY(15px) rotate(5deg);
+            }
+
+            100% {
+                transform: translateX(720px) translateY(0) rotate(0deg);
+            }
+        }
+
+        @keyframes fly5 {
+            0% {
+                transform: translateX(0) translateY(0) rotate(0deg);
+            }
+
+            25% {
+                transform: translateX(220px) translateY(-10px) rotate(-5deg);
+            }
+
+            50% {
+                transform: translateX(440px) translateY(20px) rotate(15deg);
+            }
+
+            75% {
+                transform: translateX(660px) translateY(-5px) rotate(0deg);
+            }
+
+            100% {
+                transform: translateX(880px) translateY(0) rotate(0deg);
+            }
+        }
+    </style>
+    ```
+
+    <!-- Pricing Section -->
+    <section id="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>Pilih Opsi Pemesanan</h2>
+            </div>
+            <div class="pricing-options">
+                <div class="pricing-card delivery" id="delivery-option">
+                    <h3><i class="fas fa-truck"></i> Pengiriman</h3>
+                    <div class="price">Rp 10.000</div>
+                    <ul>
+                        <li>Waktu pengiriman: 30-45 menit</li>
+                        <li>Cover area: seluruh area SMANDA</li>
+
+                    </ul>
+                </div>
+                <div class="pricing-card pickup" id="pickup-option">
+                    <h3><i class="fas fa-store"></i> Pengambilan</h3>
+                    <div class="price">Rp 8.000</div>
+                    <ul>
+                        <li>Harga lebih terjangkau</li>
+                        <li>Pengambilan di kelas X.8</li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="#" class="order-button" id="order-btn">Pesan Sekarang</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Informasi Kontak</h2>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Hubungi Kami</h3>
+                    <div class="contact-details">
+                        <p><i class="fas fa-phone"></i> +62 82318307790</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Kelas X.8</p>
+                        <p><i class="fas fa-clock"></i> Buka: 08:00 - 15:00 WIB</p>
+                    </div>
+                    <p>Pesan sekarang melalui WhatsApp untuk pemesanan yang lebih cepat dan mudah!</p>
+                </div>
+                <div class="contact-info">
+                    <h3>Cara Pemesanan</h3>
+                    <ol style="padding-left: 20px; margin-bottom: 30px;">
+                        <li>Pilih opsi pengiriman atau pengambilan</li>
+                        <li>Klik tombol "Pesan Sekarang"</li>
+                        <li>Anda akan diarahkan ke WhatsApp dengan format pesanan otomatis</li>
+                        <li>Konfirmasi dan pembayaran</li>
+                    </ol>
+                    <a href="https://wa.me/6282318307790" class="whatsapp-button" target="_blank" id="whatsapp-link">
+                        <i class="fab fa-whatsapp"></i> Hubungi via WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-tiktok"></i></a>
+            </div>
+
+            <p>Lezat, Sehat, dan Praktis untuk Anda</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Pricing option selection
+        const deliveryOption = document.getElementById('delivery-option');
+        const pickupOption = document.getElementById('pickup-option');
+        const orderBtn = document.getElementById('order-btn');
+        let selectedOption = null;
+
+        deliveryOption.addEventListener('click', function () {
+            deliveryOption.classList.add('selected');
+            pickupOption.classList.remove('selected');
+            selectedOption = 'Pengiriman';
+            orderBtn.classList.add('active');
+        });
+
+        pickupOption.addEventListener('click', function () {
+            pickupOption.classList.add('selected');
+            deliveryOption.classList.remove('selected');
+            selectedOption = 'Pengambilan';
+            orderBtn.classList.add('active');
+        });
+
+        // Order button functionality
+        orderBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            if (!selectedOption) {
+                alert('Silakan pilih opsi pemesanan terlebih dahulu!');
+                return;
+            }
+
+            // Generate WhatsApp message based on selection
+            let message = '';
+            if (selectedOption === 'Pengiriman') {
+                message = 'Halo, aku mau pesan Kimbap Spesial dengan opsi Pengiriman (Rp 10.000).%0ANama: %0AAlamat: %0AJumlah: %0ACatatan:';
+            } else {
+                message = 'Halo, aku mau pesan Kimbap Spesial dengan opsi Pengambilan (Rp 8.000).%0ANama: %0AJumlah: %0ACatatan:';
+            }
+
+            // Redirect to WhatsApp with pre-filled message
+            window.open(`https://wa.me/6282318307790?text=${message}`, '_blank');
+        });
+
+        // WhatsApp button click tracking
+        document.getElementById('whatsapp-link').addEventListener('click', function () {
+            console.log('WhatsApp button clicked');
+        });
+    </script>
+</body>
+
+</html>
+```
